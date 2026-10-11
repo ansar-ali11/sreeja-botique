@@ -11,12 +11,20 @@ const { getAuth } = require("firebase-admin/auth");
 
 const app = express();
 
-const serviceAccount = require("./service-account.json");
+
+const serviceAccountJson = process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
+
+if (!serviceAccountJson) {
+  throw new Error("Missing FIREBASE_SERVICE_ACCOUNT_JSON environment variable.");
+}
+
+const serviceAccount = JSON.parse(serviceAccountJson);
 
 initializeApp({
   credential: cert(serviceAccount),
   projectId: "sreejas-bridal-boutique",
 });
+
 
 const db = getFirestore();
 
