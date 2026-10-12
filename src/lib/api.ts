@@ -284,7 +284,7 @@ export async function setOrderStatus(id: string, status: OrderStatus) {
   const token = await currentUser.getIdToken();
 
   const response = await fetch(
-    `http://localhost:3000/api/admin/orders/${encodeURIComponent(id)}/status`,
+    `${import.meta.env["VITE_API_BASE_URL"] || "http://localhost:3000"}/api/admin/orders/${encodeURIComponent(id)}/status`,
     {
       method: "PATCH",
       headers: {
