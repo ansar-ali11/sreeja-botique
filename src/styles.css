@@ -1,22 +1,14 @@
-@import "tailwindcss" source(none);
+@import "tailwindcss";
 @source "../src";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
-/*
- * Design system definition.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
- */
+/* --------------------------------------------------
+   SREEJA'S BRIDAL BOUTIQUE
+   Modern minimal luxury design system
+   Burgundy · Warm ivory · Antique gold
+-------------------------------------------------- */
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -26,6 +18,7 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -45,12 +38,13 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-ring-offset-background: var(--background);
+
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -59,95 +53,339 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  --font-sans: "Jost", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Cormorant Garamond", Georgia, serif;
 }
 
 :root {
+  color-scheme: light;
+
   --radius: 0.375rem;
-  /* Warm ivory / cream boutique palette with bronze-gold accents */
-  --background: oklch(0.975 0.008 90);
-  --foreground: oklch(0.24 0.02 60);
-  --card: oklch(0.99 0.005 90);
-  --card-foreground: oklch(0.24 0.02 60);
-  --popover: oklch(0.99 0.005 90);
-  --popover-foreground: oklch(0.24 0.02 60);
-  --primary: oklch(0.52 0.11 65);
-  --primary-foreground: oklch(0.985 0.005 90);
-  --secondary: oklch(0.945 0.015 85);
-  --secondary-foreground: oklch(0.32 0.03 60);
-  --muted: oklch(0.95 0.012 85);
-  --muted-foreground: oklch(0.5 0.02 65);
-  --accent: oklch(0.93 0.02 85);
-  --accent-foreground: oklch(0.35 0.05 60);
-  --destructive: oklch(0.55 0.2 27);
-  --destructive-foreground: oklch(0.985 0.005 90);
-  --border: oklch(0.9 0.015 85);
-  --input: oklch(0.9 0.015 85);
-  --ring: oklch(0.52 0.11 65);
-  --chart-1: oklch(0.52 0.11 65);
-  --chart-2: oklch(0.65 0.09 45);
-  --chart-3: oklch(0.45 0.06 80);
-  --chart-4: oklch(0.72 0.1 75);
-  --chart-5: oklch(0.6 0.13 35);
-  --sidebar: oklch(0.97 0.01 88);
-  --sidebar-foreground: oklch(0.24 0.02 60);
-  --sidebar-primary: oklch(0.52 0.11 65);
-  --sidebar-primary-foreground: oklch(0.985 0.005 90);
-  --sidebar-accent: oklch(0.94 0.015 85);
-  --sidebar-accent-foreground: oklch(0.32 0.03 60);
-  --sidebar-border: oklch(0.9 0.015 85);
-  --sidebar-ring: oklch(0.52 0.11 65);
+
+  /* Brand colours */
+  --background: oklch(0.985 0.008 85);
+  --foreground: oklch(0.25 0.025 25);
+
+  --card: oklch(0.998 0.003 85);
+  --card-foreground: oklch(0.25 0.025 25);
+
+  --popover: oklch(0.998 0.003 85);
+  --popover-foreground: oklch(0.25 0.025 25);
+
+  /* Burgundy */
+  --primary: oklch(0.37 0.105 15);
+  --primary-foreground: oklch(0.985 0.008 85);
+
+  /* Warm neutrals */
+  --secondary: oklch(0.95 0.014 80);
+  --secondary-foreground: oklch(0.32 0.025 25);
+
+  --muted: oklch(0.96 0.01 80);
+  --muted-foreground: oklch(0.48 0.02 30);
+
+  /* Antique gold */
+  --accent: oklch(0.83 0.065 77);
+  --accent-foreground: oklch(0.29 0.055 30);
+
+  --destructive: oklch(0.55 0.19 25);
+  --destructive-foreground: oklch(0.985 0.008 85);
+
+  --border: oklch(0.89 0.018 70);
+  --input: oklch(0.87 0.02 70);
+  --ring: oklch(0.53 0.09 20);
+
+  --chart-1: oklch(0.37 0.105 15);
+  --chart-2: oklch(0.66 0.09 65);
+  --chart-3: oklch(0.49 0.065 35);
+  --chart-4: oklch(0.76 0.08 80);
+  --chart-5: oklch(0.57 0.11 15);
+
+  /* Sidebar: matching the storefront */
+  --sidebar: oklch(0.975 0.008 85);
+  --sidebar-foreground: oklch(0.25 0.025 25);
+  --sidebar-primary: oklch(0.37 0.105 15);
+  --sidebar-primary-foreground: oklch(0.985 0.008 85);
+  --sidebar-accent: oklch(0.95 0.014 80);
+  --sidebar-accent-foreground: oklch(0.32 0.025 25);
+  --sidebar-border: oklch(0.89 0.018 70);
+  --sidebar-ring: oklch(0.53 0.09 20);
+
+  /* Reusable brand-specific colours */
+  --brand-burgundy: oklch(0.37 0.105 15);
+  --brand-ivory: oklch(0.985 0.008 85);
+  --brand-gold: oklch(0.66 0.09 65);
 }
 
+/* Optional dark theme for components that use .dark */
 .dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  color-scheme: dark;
+
+  --background: oklch(0.19 0.025 20);
+  --foreground: oklch(0.96 0.012 80);
+
+  --card: oklch(0.23 0.025 20);
+  --card-foreground: oklch(0.96 0.012 80);
+
+  --popover: oklch(0.23 0.025 20);
+  --popover-foreground: oklch(0.96 0.012 80);
+
+  --primary: oklch(0.72 0.09 25);
+  --primary-foreground: oklch(0.19 0.025 20);
+
+  --secondary: oklch(0.29 0.025 25);
+  --secondary-foreground: oklch(0.94 0.012 80);
+
+  --muted: oklch(0.27 0.02 25);
+  --muted-foreground: oklch(0.73 0.02 70);
+
+  --accent: oklch(0.42 0.065 55);
+  --accent-foreground: oklch(0.97 0.01 80);
+
+  --destructive: oklch(0.65 0.18 25);
+  --destructive-foreground: oklch(0.98 0.01 80);
+
+  --border: oklch(0.35 0.025 25);
+  --input: oklch(0.35 0.025 25);
+  --ring: oklch(0.72 0.09 25);
+
+  --chart-1: oklch(0.72 0.09 25);
+  --chart-2: oklch(0.76 0.08 80);
+  --chart-3: oklch(0.66 0.08 45);
+  --chart-4: oklch(0.58 0.08 20);
+  --chart-5: oklch(0.82 0.07 75);
+
+  --sidebar: oklch(0.21 0.025 20);
+  --sidebar-foreground: oklch(0.96 0.012 80);
+  --sidebar-primary: oklch(0.72 0.09 25);
+  --sidebar-primary-foreground: oklch(0.19 0.025 20);
+  --sidebar-accent: oklch(0.29 0.025 25);
+  --sidebar-accent-foreground: oklch(0.94 0.012 80);
+  --sidebar-border: oklch(0.35 0.025 25);
+  --sidebar-ring: oklch(0.72 0.09 25);
 }
 
+/* Base styles */
 @layer base {
   * {
     border-color: var(--color-border);
   }
 
+  html {
+    min-width: 320px;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: "Jost", ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1,
   h2,
   h3,
+  h4,
+  h5,
+  h6,
   .font-display {
-    font-family: "Cormorant Garamond", Georgia, serif;
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  h1 {
+    line-height: 1.05;
+  }
+
+  h2,
+  h3 {
+    line-height: 1.15;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  a {
+    text-underline-offset: 4px;
+  }
+
+  ::selection {
+    color: var(--primary-foreground);
+    background: var(--primary);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+}
+
+/* Boutique utility classes and animations */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  .brand-eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    line-height: 1.5;
+    text-transform: uppercase;
+  }
+
+  .brand-divider {
+    height: 1px;
+    background: var(--color-border);
+  }
+
+  .luxury-link {
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+  }
+
+  .luxury-link::after {
+    position: absolute;
+    right: 0;
+    bottom: -4px;
+    left: 0;
+    height: 1px;
+    background: currentColor;
+    content: "";
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 280ms ease;
+  }
+
+  .luxury-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .luxury-image {
+    overflow: hidden;
+  }
+
+  .luxury-image img {
+    transition:
+      transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      opacity 400ms ease;
+  }
+
+  .luxury-image:hover img {
+    transform: scale(1.045);
+  }
+
+  .animate-fade-up {
+    animation: boutique-fade-up 750ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  .animate-fade-in {
+    animation: boutique-fade-in 650ms ease both;
+  }
+
+  .animate-reveal {
+    animation: boutique-reveal 900ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  .stagger-1 {
+    animation-delay: 100ms;
+  }
+
+  .stagger-2 {
+    animation-delay: 200ms;
+  }
+
+  .stagger-3 {
+    animation-delay: 300ms;
+  }
+
+  .stagger-4 {
+    animation-delay: 400ms;
+  }
+}
+
+/* Animation keyframes */
+@keyframes boutique-fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes boutique-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes boutique-reveal {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+/* Respect visitors who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .luxury-image:hover img {
+    transform: none;
   }
 }

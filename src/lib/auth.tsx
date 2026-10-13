@@ -29,39 +29,47 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (!firebaseReady) {
+  
+useEffect(() => {
+  if (!firebaseReady) {
+    setLoading(false);
+    return;
+  }
+
+  const { auth } = getFirebase();
+
+  const unsubscribe = onAuthStateChanged(auth, (u) => {
+    setUser(u);
+    setIsAdmin(false);
+
+    if (!u) {
       setLoading(false);
       return;
     }
 
-    const { auth } = getFirebase();
+    setLoading(true);
 
-    const unsubscribe = onAuthStateChanged(auth, async (u) => {
-      setUser(u);
-      setIsAdmin(false);
-
+    void (async () => {
       try {
-        if (u) {
-          const token = await u.getIdTokenResult();
-          setIsAdmin(token.claims["admin"] === true);
+        const token = await u.getIdTokenResult();
+        setIsAdmin(token.claims["admin"] === true);
 
-          upsertUserProfile(u.uid, {
-            ...(u.email ? { email: u.email } : {}),
-            name: u.displayName ?? "",
-          }).catch((error) => {
-            console.error("Could not update user profile:", error);
-          });
-        }
+        upsertUserProfile(u.uid, {
+          ...(u.email ? { email: u.email } : {}),
+          name: u.displayName ?? "",
+        }).catch((error) => {
+          console.error("Could not update user profile:", error);
+        });
       } catch (error) {
         console.error("Authentication initialization failed:", error);
       } finally {
         setLoading(false);
       }
-    });
+    })();
+  });
 
-    return unsubscribe;
-  }, []);
+  return unsubscribe;
+}, []);
 
   return (
     <Ctx.Provider

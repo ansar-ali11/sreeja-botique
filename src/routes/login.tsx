@@ -1,3 +1,4 @@
+
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { z } from "zod";
@@ -11,6 +12,7 @@ import {
   sendEmailVerification,
   updateProfile,
 } from "firebase/auth";
+import { useAuth } from "@/lib/auth";
 import { SiteLayout } from "@/components/SiteLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,6 +33,7 @@ export const Route = createFileRoute("/login")({
 function Login() {
   const { next } = Route.useSearch();
   const nav = useNavigate();
+  const { user, loading } = useAuth();
 
   const [mode, setMode] = useState<"in" | "up">("in");
   const [busy, setBusy] = useState(false);
@@ -42,10 +45,30 @@ function Login() {
 
   const [showVerification, setShowVerification] = useState(false);
 
-  const done = () => nav({ to: (next as "/") ?? "/account" });
+  
+
+const done = async () => {
+  const destination = next || "/account";
+
+  // Wait until the app's auth provider recognizes the signed-in user.
+  for (let i = 0; i < 20; i++) {
+    if (!loading && user) break;
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+
+  await nav({
+    to: destination,
+    replace: true,
+  });
+};
+
+
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (busy) return;
+
     setBusy(true);
 
     try {
@@ -59,10 +82,9 @@ function Login() {
         );
 
         await updateProfile(c.user, {
-          displayName: f.name,
+          displayName: f.name.trim(),
         });
 
-        // Send verification email for newly created accounts
         await sendEmailVerification(c.user);
 
         toast.success(
@@ -77,7 +99,6 @@ function Login() {
           f.password,
         );
 
-        // Check whether this email/password account is verified
         if (!c.user.emailVerified) {
           setShowVerification(true);
           toast.error("Please verify your email before continuing.");
@@ -85,13 +106,37 @@ function Login() {
         }
 
         toast.success("Welcome!");
-        done();
+        await done();
       }
     } catch (err) {
       toast.error(
         err instanceof Error
           ? err.message.replace("Firebase: ", "")
           : "Could not sign in",
+      );
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const google = async () => {
+    if (busy) return;
+
+    setBusy(true);
+
+    try {
+      await signInWithPopup(
+        getFirebase().auth,
+        new GoogleAuthProvider(),
+      );
+
+      toast.success("Welcome!");
+      await done();
+    } catch (err) {
+      toast.error(
+        err instanceof Error
+          ? err.message
+          : "Google sign-in failed",
       );
     } finally {
       setBusy(false);
@@ -119,35 +164,26 @@ function Login() {
     }
   };
 
-  const google = async () => {
+  const reset = async () => {
+    if (!f.email) {
+      toast.error("Enter your email first");
+      return;
+    }
+
     try {
-      await signInWithPopup(
+      await sendPasswordResetEmail(
         getFirebase().auth,
-        new GoogleAuthProvider(),
+        f.email,
       );
 
-      done();
+      toast.success("Reset link sent to your email");
     } catch (err) {
       toast.error(
         err instanceof Error
-          ? err.message
-          : "Google sign-in failed",
+          ? err.message.replace("Firebase: ", "")
+          : "Could not send password reset email",
       );
     }
-  };
-
-  const reset = async () => {
-    if (!f.email) {
-      return toast.error("Enter your email first");
-    }
-
-    await sendPasswordResetEmail(
-      getFirebase().auth,
-      f.email,
-    ).then(
-      () => toast.success("Reset link sent to your email"),
-      (e) => toast.error(e.message),
-    );
   };
 
   return (
@@ -231,28 +267,38 @@ function Login() {
           </div>
 
           <Button
+            type="submit"
             disabled={busy}
             className="w-full tracking-widest"
             size="lg"
           >
-            {mode === "in" ? "SIGN IN" : "CREATE ACCOUNT"}
+            {busy
+              ? "PLEASE WAIT..."
+              : mode === "in"
+                ? "SIGN IN"
+                : "CREATE ACCOUNT"}
           </Button>
         </form>
 
         <Button
+          type="button"
           variant="outline"
+          disabled={busy}
           className="mt-3 w-full"
           onClick={google}
         >
-          Continue with Google
+          {busy ? "PLEASE WAIT..." : "Continue with Google"}
         </Button>
 
         <div className="mt-6 flex justify-between text-sm">
           <button
+            type="button"
             className="underline"
-            onClick={() =>
-              setMode(mode === "in" ? "up" : "in")
-            }
+            disabled={busy}
+            onClick={() => {
+              setMode(mode === "in" ? "up" : "in");
+              setShowVerification(false);
+            }}
           >
             {mode === "in"
               ? "New here? Create account"
@@ -261,7 +307,9 @@ function Login() {
 
           {mode === "in" && (
             <button
+              type="button"
               className="underline"
+              disabled={busy}
               onClick={reset}
             >
               Forgot password?

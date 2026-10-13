@@ -72,7 +72,7 @@ function Account() {
         <div className="flex gap-2">
           <Button asChild variant="outline">
             <Link
-              to="/account/orders"
+              to="/myorders"
               onClick={() => {
                 console.log("[My Orders] Link clicked");
                 console.log("[My Orders] Current URL:", window.location.href);
