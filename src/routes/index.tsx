@@ -333,7 +333,7 @@ function HomePage() {
           </p>
 
           <a
-            href="https://instagram.com"
+            href="https://www.instagram.com/sreejas_bridal_boutique?utm_source=ig_web_button_share_sheet&cplk=ZDNlZDc0MzIxNw=="
             target="_blank"
             rel="noreferrer"
             className="group mt-7 inline-flex items-center gap-3 border border-border px-6 py-4 text-[10px] font-semibold tracking-[0.18em] transition-all duration-300 hover:border-primary hover:text-primary"

@@ -146,7 +146,7 @@ export function Footer() {
 
               <li>
                 <a
-                  href="https://instagram.com"
+                  href="https://www.instagram.com/sreejas_bridal_boutique?utm_source=ig_web_button_share_sheet&cplk=ZDNlZDc0MzIxNw=="
                   target="_blank"
                   rel="noreferrer"
                   className="group inline-flex items-center gap-3 transition-colors duration-300 hover:text-[#651E32]"

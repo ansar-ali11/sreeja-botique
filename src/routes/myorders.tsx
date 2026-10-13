@@ -413,7 +413,7 @@ function MyOrders() {
                 <Mail className="h-4 w-4" />
               </a>
               <a
-                href="https://www.instagram.com/"
+                href="https://www.instagram.com/sreejas_bridal_boutique?utm_source=ig_web_button_share_sheet&cplk=ZDNlZDc0MzIxNw=="
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
